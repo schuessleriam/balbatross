@@ -1,7 +1,10 @@
 import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUserEmail } from './../../redux/user/user.selectors.js';
 
-const StripeCheckoutButton = ( { price } ) => {
+const StripeCheckoutButton = ( { price, email } ) => {
     const priceForStripe = price * 100;
     const publishableKey = 'pk_test_TqhcjYVHHmaeHAlpaEnzMQHo00qdZNcDZw';
 
@@ -14,6 +17,7 @@ const StripeCheckoutButton = ( { price } ) => {
         <StripeCheckout
         label='Pay Now'
         name='A Bathing Albatross'
+        email={email}
         billingAddress
         shippingAddress
         //image='https://alex.schuess.com/assets/balbatross-stripe-logo.svg'
@@ -26,4 +30,8 @@ const StripeCheckoutButton = ( { price } ) => {
     );
 }
 
-export default StripeCheckoutButton;
+const mapStateToProps = createStructuredSelector({
+    email: selectCurrentUserEmail
+});
+
+export default connect(mapStateToProps)(StripeCheckoutButton);
