@@ -12,6 +12,36 @@
     appId: "1:149311769116:web:19291bfd7a873b5444edd9"
   }
 
+  export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+    const batch = firestore.batch();
+
+    objectsToAdd.forEach(element => {
+      const newDocRef = collectionRef.doc()
+      batch.set(newDocRef, element)
+    });
+
+    await batch.commit();
+
+  }
+
+  export const convertCollectionsToObject = collections => {
+    const transformedCollections = collections.docs.map(doc => {
+        const { title, items } = doc.data();
+
+        return {
+          routeName: encodeURI(title.toLowerCase()),
+          id: doc.id,
+          title,
+          items
+        }
+    });
+    return transformedCollections.reduce((accu, collection) => {
+      accu[collection.routeName] = collection;
+      return accu;
+    },{});
+  }
+
   export const createUserProfileDoc = async (userAuth, additionalData) => {
     if (!userAuth) return;
 
