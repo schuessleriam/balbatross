@@ -2,7 +2,8 @@ import React from 'react';
 import './sign-up.styles.scss';
 import CustomButton from './../custom-button/custom-button.component';
 import FormInput from './../form-input/form-input.component';
-import { auth, createUserProfileDoc } from './../../firebase/firebase.utils';
+import {signUpStart} from './../../redux/user/user.actions.js';
+import { connect } from 'react-redux';
 
 class SignUp extends React.Component {
     constructor(){
@@ -12,35 +13,26 @@ class SignUp extends React.Component {
             displayName: '',
             email: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            signedUp: false
         }
-
     }
 
-    handleSubmit = async e => {
+    handleSubmit = e => {
         e.preventDefault();
-
         const { displayName, email, password, confirmPassword } = this.state;
+        const { signUpStart } = this.props;
 
         if(password !== confirmPassword) {
-            alert("Confirm password does not match.");
+            alert("Passwords do not match. Please renter password and confirm password");
+            this.setState({
+                password: '',
+                confirmPassword: ''
+            }); 
             return;
         }else{
-            try {
-                const { user } = await auth.createUserWithEmailAndPassword(email, password);
-    
-                await createUserProfileDoc(user, {displayName})
-                
-                this.setState({
-                    displayName: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: ''
-                });                
-            } catch (error) {
-                console.error(error);
-            }
-
+            signUpStart({displayName: displayName, email: email, password: password});
+            this.setState({signedUp: true});
         }
     }
 
@@ -94,4 +86,8 @@ class SignUp extends React.Component {
     }    
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => ({
+    signUpStart: (signUpInput) => dispatch(signUpStart(signUpInput))
+});
+
+export default connect(null, mapDispatchToProps)(SignUp);
