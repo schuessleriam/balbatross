@@ -1,7 +1,13 @@
 import { all, call, takeLatest, put } from 'redux-saga/effects';
 import userActionTypes from './user.action.types';
 import { auth, googleProvider, createUserProfileDoc, getCurrentUser } from './../../firebase/firebase.utils';
-import {signInSuccess, signInFailure, signUpFailure, signOutSuccess, signOutFailure } from './user.actions';
+import {signInSuccess, 
+        signInFailure, 
+        signUpFailure, 
+        signOutSuccess, 
+        signOutFailure,
+        checkUserSessionComplete } 
+from './user.actions';
 
 function* signInWithAuth(userAuth, additionalData) {
     try {
@@ -35,10 +41,15 @@ function* signInWithEmail({payload: {email, password}}) {
 function* isUserAuthenticated() {
     try {
         const userAuth = yield getCurrentUser();
-        if(!userAuth) return;
+        if(!userAuth) {
+            yield put(checkUserSessionComplete());
+            return;
+        }
         yield signInWithAuth(userAuth);
+        yield put(checkUserSessionComplete());
     } catch (error) {
         yield put(signInFailure(error));
+        yield put(checkUserSessionComplete());
     }
 }
 

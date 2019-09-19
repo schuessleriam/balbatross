@@ -2,7 +2,8 @@ import userActionTypes from './user.action.types';
 
 const INITIAL_STATE = {
     currentUser: null,
-    errorMessage: null
+    errorMessage: null,
+    userSessionChecked: false
 }
 
 const userReducer = (state = INITIAL_STATE, action) =>{
@@ -26,6 +27,16 @@ const userReducer = (state = INITIAL_STATE, action) =>{
             return {
                 ...state,
                 errorMessage: action.payload
+            };
+        case userActionTypes.CHECK_USER_SESSION_COMPLETE:
+            return {
+                ...state,
+                userSessionChecked: true
+            };
+        case userActionTypes.CLEAR_ERROR:
+            return {
+                ...state,
+                errorMessage: null 
             };
         default: 
             return state;

@@ -4,6 +4,7 @@ import CustomButton from './../custom-button/custom-button.component';
 import FormInput from './../form-input/form-input.component';
 import {signUpStart} from './../../redux/user/user.actions.js';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class SignUp extends React.Component {
     constructor(){
@@ -13,15 +14,14 @@ class SignUp extends React.Component {
             displayName: '',
             email: '',
             password: '',
-            confirmPassword: '',
-            signedUp: false
+            confirmPassword: ''
         }
     }
 
     handleSubmit = e => {
         e.preventDefault();
         const { displayName, email, password, confirmPassword } = this.state;
-        const { signUpStart } = this.props;
+        const { signUpStart, history } = this.props;
 
         if(password !== confirmPassword) {
             alert("Passwords do not match. Please renter password and confirm password");
@@ -32,7 +32,7 @@ class SignUp extends React.Component {
             return;
         }else{
             signUpStart({displayName: displayName, email: email, password: password});
-            this.setState({signedUp: true});
+            history.push('/account');
         }
     }
 
@@ -90,4 +90,4 @@ const mapDispatchToProps = dispatch => ({
     signUpStart: (signUpInput) => dispatch(signUpStart(signUpInput))
 });
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default withRouter(connect(null, mapDispatchToProps)(SignUp));

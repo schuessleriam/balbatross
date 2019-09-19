@@ -2,9 +2,9 @@ import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { selectCurrentUserEmail } from './../../redux/user/user.selectors.js';
+import { selectCurrentUser} from './../../redux/user/user.selectors.js';
 
-const StripeCheckoutButton = ( { price, email } ) => {
+const StripeCheckoutButton = ( { price, user: {email} } ) => {
     const priceForStripe = price * 100;
     const publishableKey = 'pk_test_TqhcjYVHHmaeHAlpaEnzMQHo00qdZNcDZw';
 
@@ -31,7 +31,7 @@ const StripeCheckoutButton = ( { price, email } ) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-    email: selectCurrentUserEmail
+    user: selectCurrentUser
 });
 
 export default connect(mapStateToProps)(StripeCheckoutButton);

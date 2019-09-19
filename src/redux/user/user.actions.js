@@ -22,6 +22,9 @@ export const signInFailure = err => ({
 export const checkUserSession = () => ({
     type: userActionTypes.CHECK_USER_SESSION
 });
+export const checkUserSessionComplete = () => ({
+    type: userActionTypes.CHECK_USER_SESSION_COMPLETE
+});
 
 export const signOutStart = () => ({
     type: userActionTypes.SIGN_OUT_START
@@ -49,4 +52,8 @@ export const signUpSuccess = user => ({
 export const signUpFailure = err => ({
     type: userActionTypes.SIGN_UP_FAILURE,
     payload: err.message
+});
+
+export const clearError = () => ({
+    type: userActionTypes.CLEAR_ERROR
 });

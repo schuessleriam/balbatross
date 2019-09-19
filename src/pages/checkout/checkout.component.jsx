@@ -36,14 +36,16 @@ const CheckoutPage = ({cartItems, total}) => (
                 to test the payment Component, you can enter the following demo card 
                 provided by Stripe.
         </div>
-        <div className="total">Total: ${total}</div>
+        <div className="total-and-pay">
+            <StripeCheckoutButton price={total}/>
+            <div className="total">Total: ${total}</div>
+        </div>
         <div className="test-warning">
             *Please use following information for test payments* 
             <br/>
             N: 4242 4242 4242 4242 -- Exp: 12/20 -- CVV: 123
             <br/>
         </div>
-        <StripeCheckoutButton price={total}/>
     </div>
 );
 
