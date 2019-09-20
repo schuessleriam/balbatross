@@ -62,7 +62,7 @@
       })
 
     } catch (error) {
-        console.log("error createing user", error.message);
+        console.log("error creating user", error.message);
     }
   }
     return userRef;
