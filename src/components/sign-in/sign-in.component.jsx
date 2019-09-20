@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './sign-in.styles.scss';
 import FormInput from './../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
@@ -7,71 +7,66 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectUserErrorMessage } from './../../redux/user/user.selectors';
 
-class SignIn extends Component {
-    constructor(props){
-        super(props);
+const SignIn = ({ 
+    emailSignInStart, 
+    SignInWithGoogle, 
+    userErrorMessage, 
+    clearError }) => {
 
-        this.state = {
-            email: '',
-            password: ''
-        }
-    }
+    const [userCredentials, setUserCredentials] = useState({email: '', password: ''});
+    const {email, password} = userCredentials;
 
-    handleSubmit = async e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        const {email, password} = this.state;
-        const {emailSignInStart} = this.props;
-
         emailSignInStart(email, password);
     }
 
-    handleChange = e => {
+    const handleChange = e => {
         const { value, name } = e.target;
-
-        this.setState({ [name]: value})
+        setUserCredentials({...userCredentials, [name]: value});
     }
 
-    render(){
-
-        const { SignInWithGoogle, userErrorMessage, clearError } = this.props;
-
+    useEffect(() => {
         if(userErrorMessage){
             alert(userErrorMessage);
             clearError();
+            setUserCredentials({...userCredentials, password: ''});
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[userErrorMessage]); //warning shown as result of not including 
+                           //clearError and SetUserCredentials, no real problem.
 
-        return(
-            <div className='sign-in'>
-                <h2 className="title">I already have an account</h2>
-                <span>Sign in with username and password</span>
+    return(
+        <div className='sign-in'>
+            <h2 className="title">I already have an account</h2>
+            <span>Sign in with username and password</span>
 
-                <form onSubmit={this.handleSubmit}>
-                    <FormInput name='email' 
-                        type='email' 
-                        value={this.state.email} 
-                        handleChange={this.handleChange}
-                        label='email'
-                        required/>
-                    <FormInput name='password' 
-                        type='password' 
-                        value={this.state.password} 
-                        handleChange={this.handleChange}
-                        label='Password'
-                        required/>
-                    <div className="buttons">
-                        <CustomButton type='submit'>Sign In</CustomButton>
-                        <CustomButton type='button' isGoogle='true' onClick={
-                            SignInWithGoogle 
-                        }>
-                        Sign In With Google
-                        </CustomButton>
-                    </div>    
-                </form>
-            </div>
-        );
-    }
-
+            <form onSubmit={handleSubmit}>
+                <FormInput name='email' 
+                    type='email' 
+                    value={email} 
+                    handleChange={handleChange}
+                    label='email'
+                    required/>
+                <FormInput name='password' 
+                    type='password' 
+                    value={password} 
+                    handleChange={handleChange}
+                    label='Password'
+                    required/>
+                <div className="buttons">
+                    <CustomButton type='submit'>Sign In</CustomButton>
+                    <CustomButton type='button' isGoogle='true' onClick={
+                        SignInWithGoogle 
+                    }>
+                    Sign In With Google
+                    </CustomButton>
+                </div>    
+            </form>
+        </div>
+    );
 }
+
 
 const mapStateToProps = createStructuredSelector({
     userErrorMessage: selectUserErrorMessage
