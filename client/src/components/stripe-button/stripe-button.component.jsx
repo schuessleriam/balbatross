@@ -1,5 +1,6 @@
 import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser} from './../../redux/user/user.selectors.js';
@@ -9,8 +10,21 @@ const StripeCheckoutButton = ( { price, user: {email} } ) => {
     const publishableKey = 'pk_test_TqhcjYVHHmaeHAlpaEnzMQHo00qdZNcDZw';
 
     const onToken = token => {
-        console.log(token);
-        alert("Test Payment Sucessful");
+        axios({
+           url: 'payment',
+           method: 'post',
+           data: {
+               amount: priceForStripe,
+               token
+           } 
+        }).then(response => {
+            alert("Payment accepted and processed successfully")
+        }).catch(error => {
+            console.log(error);
+            alert('There was an issue processing your payment. '
+                + 'Be sure to use the provided test credit card information'
+            );
+        });
     }
 
     return(
@@ -20,7 +34,6 @@ const StripeCheckoutButton = ( { price, user: {email} } ) => {
         email={email}
         billingAddress
         shippingAddress
-        //image='https://alex.schuess.com/assets/balbatross-stripe-logo.svg'
         description={`Your total is $${price}`}
         amount={priceForStripe}
         panelLabel='Pay Now'
