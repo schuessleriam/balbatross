@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { withRouter } from 'react-router-dom';
-import './menu-item.styles.scss';
+import { MenuItemContainer,
+        BackgroundImage,
+        Content,
+        Title,
+        SubTitle 
+} from './menu-item.styles.jsx';
 
 
-const MenuItem = ({title, imageUrl, size, history, linkUrl, match}) => (
-    <div className={`${size} menu-item`} onClick={ () => history.push(`${match.url}${linkUrl}`)}>
-        <div className="background-image" style={{background: `url(${imageUrl})`}}/>
-        <div className="content">
-            <h1 className="title">{title}</h1>
-            <span className="subtitle">shop now</span>
-        </div>
-    </div>
-)
+const MenuItem = ({title, imageUrl, size, history, linkUrl, match}) => {
 
+    const [mobileTouch, setMobileTouch] = useState({mobileTouch: false})
+
+    return (
+        <MenuItemContainer size={size} 
+            onTouchStart={() => setMobileTouch({mobileTouch: true})}
+            onTouchEnd={() => setMobileTouch({mobileTouch: false})}
+            mobileTouch={mobileTouch.mobileTouch}
+            onClick={ () => {history.push(`${match.url}${linkUrl}`)}}>
+            <BackgroundImage imageUrl={imageUrl} />
+            <Content>
+                <Title>{title}</Title>
+                <SubTitle>shop now</SubTitle>
+            </Content>
+        </MenuItemContainer>
+    );
+}
 export default withRouter(MenuItem);
