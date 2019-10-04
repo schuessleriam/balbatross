@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { checkUserSession } from './redux/user/user.actions';
 
-import { GlobalStyle } from './global.styles';
+import { GlobalStyle, MobileSpacer } from './global.styles';
 import CheckoutContainer from './pages/checkout/checkout.container';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
@@ -24,6 +24,7 @@ const App = ({ checkUserSession, currentUser }) => {
     <div>
       <GlobalStyle/>
       <Header/>
+      <MobileSpacer/>
       <Switch>
         <Route exact path="/"  component = {HomePage}/>
         <Route path="/shop"  component = {ShopPage}/>

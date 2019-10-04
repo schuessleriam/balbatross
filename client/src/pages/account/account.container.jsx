@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
     isLoading: !selectCurrentUser(state),
     condition: selectUserSessionChecked(state),
     location: '/',
-    description: 'LOGGING IN'
+    description: 'Loading Account'
 });
 
 const AccountContainer = connect(mapStateToProps)(WithCondition(WithSpinner(AccountPage)));

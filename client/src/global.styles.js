@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import Styled, { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
     body{
@@ -18,4 +18,11 @@ export const GlobalStyle = createGlobalStyle`
     *{
         box-sizing: border-box;
     }
+`;
+
+export const MobileSpacer = Styled.div`
+@media (max-width: 799px){
+    height: 70px;
+    width: 100%;
+}
 `;
