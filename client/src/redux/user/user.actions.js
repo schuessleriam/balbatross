@@ -4,6 +4,10 @@ export const googleSignInStart = () => ({
     type: userActionTypes.GOOGLE_SIGN_IN_START
 });
 
+export const googleRedirectSignInStart = () => ({
+    type: userActionTypes.GOOGLE_REDIRECT_SIGN_IN_START
+});
+
 export const emailSignInStart = (authCreds) => ({
     type: userActionTypes.EMAIL_SIGN_IN_START,
     payload: authCreds

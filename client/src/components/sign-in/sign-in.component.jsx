@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { Breakpoint } from 'react-socks';
 import './sign-in.styles.scss';
 import FormInput from './../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-import { googleSignInStart, emailSignInStart, clearError } from './../../redux/user/user.actions.js';
+import { googleRedirectSignInStart, googleSignInStart, emailSignInStart, clearError } from './../../redux/user/user.actions.js';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectUserErrorMessage } from './../../redux/user/user.selectors';
@@ -33,7 +34,7 @@ class SignIn extends Component {
 
     render(){
 
-        const { SignInWithGoogle, userErrorMessage, clearError } = this.props;
+        const { SignInWithGoogleWithRedirect, SignInWithGoogle, userErrorMessage, clearError } = this.props;
 
         if(userErrorMessage){
             alert(userErrorMessage);
@@ -60,11 +61,20 @@ class SignIn extends Component {
                         required/>
                     <div className="buttons">
                         <CustomButton type='submit'>Sign In</CustomButton>
-                        <CustomButton type='button' isGoogle='true' onClick={
-                            SignInWithGoogle 
-                        }>
-                        Sign In With Google
-                        </CustomButton>
+                        <Breakpoint customQuery="(min-width: 800px)">
+                            <CustomButton type='button' isGoogle='true' onClick={
+                                SignInWithGoogle 
+                            }>
+                            Sign In With Google
+                            </CustomButton>
+                        </Breakpoint>
+                        <Breakpoint customQuery="(max-width: 799px)">
+                            <CustomButton type='button' isGoogle='true' onClick={
+                                SignInWithGoogleWithRedirect 
+                            }>
+                            Sign In With Google
+                            </CustomButton>
+                        </Breakpoint>
                     </div>    
                 </form>
             </div>
@@ -79,6 +89,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
     SignInWithGoogle: () => dispatch(googleSignInStart()),
+    SignInWithGoogleWithRedirect: () => dispatch(googleRedirectSignInStart()),
     emailSignInStart: (email, password) => dispatch(emailSignInStart({email: email, password: password})),
     clearError: () => dispatch(clearError())
 });

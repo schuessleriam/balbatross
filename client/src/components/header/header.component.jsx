@@ -37,7 +37,7 @@ const Header = ({ currentUser, hidden, signOutStart }) => {
     return (
         <HeaderContainer>
         {
-            showHeader.isMobile || !showHeader.showHeader ? <OptionContainerDiv icon onClick={() => 
+            showHeader.isMobile ? <OptionContainerDiv icon onClick={() => 
                 setShowHeader({...showHeader, showHeader: !showHeader.showHeader})}>
                 &#9776;</OptionContainerDiv> : null
         }

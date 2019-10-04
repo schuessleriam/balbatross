@@ -29,6 +29,16 @@ function* signInWithGoogle() {
     }
 }
 
+function* signInWithGoogleWithRedirect() {
+    try {
+        yield auth.signInWithRedirect(googleProvider);
+        const {user} = yield auth.getRedirectResult();
+        yield signInWithAuth(user);
+    } catch (error) {
+        yield put(signInFailure(error));
+    }
+}
+
 function* signInWithEmail({payload: {email, password}}) {
     try {
         const {user} = yield auth.signInWithEmailAndPassword(email, password);
@@ -77,6 +87,10 @@ function* onGoogleSignInStart() {
     yield takeLatest(userActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
 
+function* onGoogleRedirectSignInStart() {
+    yield takeLatest(userActionTypes.GOOGLE_REDIRECT_SIGN_IN_START, signInWithGoogleWithRedirect);
+}
+
 function* onEmailSignInStart() {
     yield takeLatest(userActionTypes.EMAIL_SIGN_IN_START, signInWithEmail);
 }
@@ -95,7 +109,8 @@ function* onSignUpStart() {
 
 export function* userSagas() {
     yield all([
-        call(onGoogleSignInStart), 
+        call(onGoogleSignInStart),
+        call(onGoogleRedirectSignInStart),  
         call(onEmailSignInStart),
         call(onCheckUserSession),
         call(onSignOutStart),
