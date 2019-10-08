@@ -4,8 +4,13 @@
     height: 400px;
     align-items: center;
     position: relative;
+    
+    @media screen and (max-width: 799px){
+      min-width: 200px;
+    }
 
     &:hover{
+      @media screen and (min-width: 800px){
       .image{
         opacity: 0.8;
       }
@@ -13,6 +18,7 @@
       .item-button{
         opacity: 0.85;
         display: flex;
+      }
       }
     }
   
@@ -29,7 +35,11 @@
       opacity: 0.7;
       position: absolute;
       top: 300px;
-      display: none
+      display: none;
+      @media screen and (max-width: 799px){
+        display: flex;
+        opacity: 1.0;
+      }
     }
   
     .item-footer {

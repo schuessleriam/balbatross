@@ -23,7 +23,7 @@ const AccountPage = ({user: {displayName, email}, history}) => {
     return(
     <div className='account-page-container'>
         <h1 className='title'>
-            Welcome, {firstName}
+            Hello, {firstName}
         </h1> 
         <span className='email'>
             Email: {email} 
