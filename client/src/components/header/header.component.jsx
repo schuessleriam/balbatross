@@ -1,4 +1,3 @@
-// import base react libraries 
 import React, { useState, useEffect } from 'react';
 import { useCurrentWidth } from 'react-socks';
 // import redux modules and project selectors
@@ -34,11 +33,15 @@ const Header = ({ currentUser, hidden, signOutStart }) => {
         }
     },[width]);
 
+    const toggleHeaderDropdown = () => {
+        setShowHeader({...showHeader, showHeader: !showHeader.showHeader});
+    }
+
     return (
         <HeaderContainer>
         {
             showHeader.isMobile ? <OptionContainerDiv icon onClick={() => 
-                setShowHeader({...showHeader, showHeader: !showHeader.showHeader})}>
+                toggleHeaderDropdown()}>
                 &#9776;</OptionContainerDiv> : null
         }
                 <LogoContainer to="/">
@@ -46,39 +49,55 @@ const Header = ({ currentUser, hidden, signOutStart }) => {
                 </LogoContainer>
                 
                 <OptionsContainer>
-                    {
-                    showHeader.showHeader ?
+                {   
+    //render mobile dropdown
+                    showHeader.showHeader && showHeader.isMobile ?
                         <OptionsContainer {...showHeader}>
-                            {showHeader.isMobile ? <OptionContainerDiv icon onClick={() => 
-                                setShowHeader({...showHeader, showHeader: !showHeader.showHeader})}>
-                                &#10005; </OptionContainerDiv>  : null}
-                            {showHeader.isMobile ? <OptionContainerDiv><Line/></OptionContainerDiv> : null}
+                            <OptionContainerDiv icon onClick={() => toggleHeaderDropdown()}> &#10005; </OptionContainerDiv>  
+                            <OptionContainerDiv><Line/></OptionContainerDiv>
+                            <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/">HOME</OptionContainerLink> 
+                            <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/shop">SHOP</OptionContainerLink>
+                            <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/contact">CONTACT</OptionContainerLink>
+                            {currentUser ? <OptionContainerLink 
+                                onClick={() => toggleHeaderDropdown()} to="/account">
+                                ACCOUNT</OptionContainerLink> 
+                            : null}
+                            {currentUser ? <OptionContainerDiv  onClick={ () => {
+                                    toggleHeaderDropdown();
+                                    signOutStart();
+                                    }
+                                }>
+                                SIGN OUT</OptionContainerDiv>
+                            : <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/signin">SIGN IN</OptionContainerLink>
+                            }
+                        </OptionsContainer>
+    //render desktop header                          
+                    : !showHeader.isMobile ?
+                        <OptionsContainer {...showHeader}> 
                             <OptionContainerLink to="/shop">SHOP</OptionContainerLink>
                             <OptionContainerLink to="/contact">CONTACT</OptionContainerLink>
                             {currentUser ? <OptionContainerLink  to="/account">ACCOUNT</OptionContainerLink> : null}
-                            {currentUser ? <OptionContainerDiv  onClick={signOutStart}>SIGN OUT</OptionContainerDiv>
-                            : <OptionContainerLink to="/signin">SIGN IN</OptionContainerLink>}
+                            {currentUser ? <OptionContainerDiv  onClick={ () => signOutStart()}>SIGN OUT</OptionContainerDiv>
+                                : <OptionContainerLink to="/signin">SIGN IN</OptionContainerLink>
+                            }
                         </OptionsContainer>
-
+                    
                     : null
-                    }
-                        <OptionsContainer>
-                            <OptionContainerDiv>
-                                <CartIcon onClick={() => 
-                                    setShowHeader({...showHeader, showHeader: false})}
-                                />
-                            </OptionContainerDiv>
-                        </OptionsContainer>
+                }
+
+                    <OptionsContainer>
+                        <OptionContainerDiv onClick={() => 
+                            setShowHeader({...showHeader, showHeader: false})}>
+                            <CartIcon />
+                        </OptionContainerDiv>
+                    </OptionsContainer>
                 </OptionsContainer>
                 {
-                    !hidden ? <CartDropdown /> : null
+                    !hidden ? <CartDropdown/> : null
                 }
             </HeaderContainer>
     );
 }
-
-
-
 
 const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser,
