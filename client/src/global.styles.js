@@ -8,6 +8,11 @@ export const GlobalStyle = createGlobalStyle`
         @media (max-width: 800px) {
             padding: 8px;
         }
+
+        @media (min-width: 1601px) {
+            padding: 40px 160px;
+            font-size: 28px;
+        }
     }
     
     a{

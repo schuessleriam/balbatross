@@ -53,10 +53,19 @@ export const MenuItemContainer = Styled.div`
 
     opacity: ${props => props.mobileTouch ? "0.5" : "1"};
     
-    @media (min-width: 800px) {
-      
+    @media screen and (min-width: 426px) and (max-width: 799px) {
+      width: 45%;
+    }
+    @media screen and (min-width: 800px) {
+
+      @media screen and (max-width: 1600px) {
         height: ${props => props.size ? "380px" : "240px"};
-    
+      }
+
+      @media screen and (min-width: 1600px) {
+        height: ${props => props.size ? "570px" : "360px"};
+      }
+
       &:first-child {
         margin-right: 7.5px;
       }

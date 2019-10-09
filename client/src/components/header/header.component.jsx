@@ -86,14 +86,21 @@ const Header = ({ currentUser, hidden, signOutStart }) => {
                 }
 
                     <OptionsContainer>
-                        <OptionContainerDiv onClick={() => 
-                            setShowHeader({...showHeader, showHeader: false})}>
-                            <CartIcon />
-                        </OptionContainerDiv>
+                        { 
+                        !showHeader.isMobile ?
+                            <OptionContainerDiv> <CartIcon/> </OptionContainerDiv>
+                        :
+                            <OptionContainerLink onClick={() => 
+                                setShowHeader({...showHeader, showHeader: false})}
+                                to="/checkout"
+                            >
+                                <CartIcon />
+                            </OptionContainerLink>
+                        }
                     </OptionsContainer>
                 </OptionsContainer>
                 {
-                    !hidden ? <CartDropdown/> : null
+                    !hidden && !showHeader.isMobile ? <CartDropdown/> : null
                 }
             </HeaderContainer>
     );

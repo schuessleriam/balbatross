@@ -9,11 +9,24 @@
   
     .items {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 14px;
-      @media screen and (max-width: 799px){
+
+      @media screen and (max-width: 499px){
         display: flex;
         flex-direction: column;
+      }
+
+      @media screen and (min-width: 426px) and (max-width: 799px){
+        grid-template-columns: 1fr 1fr;
+      }
+
+      @media screen and (min-width: 1009px) and (max-width: 1600px){
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+
+      @media screen and (min-width: 1601px){
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
       }
   
       & .collection-item {
