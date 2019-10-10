@@ -76,12 +76,12 @@ export const OptionsContainer = Styled.div`
     
 
 export const OptionContainerDiv = Styled.div`
-${GetIconStyles};
-${OptionContainerStyles};
+    ${GetIconStyles};
+    ${OptionContainerStyles};
 `;
 
 export const OptionContainerLink = Styled(Link)`
-${OptionContainerStyles};
+    ${OptionContainerStyles};
 `;
 
 export const Line = Styled.hr`

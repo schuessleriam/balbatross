@@ -1,45 +1,53 @@
 import React from 'react';
 import { useCurrentWidth } from 'react-socks';
-import './checkout.styles.scss';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectCartItems, selectCartTotal } from './../../redux/cart/cart.selectors';
 import CheckoutItem from "./../../components/checkout-item/checkout-item.component";
-import StripeCheckoutButton from './../../components/stripe-button/stripe-button.component';
+import { CheckoutPageContainer, 
+    CheckoutHeader, 
+    HeaderBlock, 
+    Disclaimer, 
+    TotalAndPay, 
+    Total,
+    CheckoutButton, 
+    TestCardDisclaimer 
+} from './checkout.styles';
+
 
 const CheckoutPage = ({cartItems, total}) => {
 
     const width = useCurrentWidth();
 
     return (
-        <div className="checkout-page">
+        <CheckoutPageContainer>
         {
         width > 799 ? 
-            <div className="checkout-header">
-                <div className="header-block">
+            <CheckoutHeader>
+                <HeaderBlock>
                     <span>Product</span>
-                </div>
-                <div className="header-block">
+                </HeaderBlock>
+                <HeaderBlock>
                     <span>Description</span>
-                </div>
-                <div className="header-block">
+                </HeaderBlock>
+                <HeaderBlock>
                     <span>Quantity</span>
-                </div>
-                <div className="header-block">
+                </HeaderBlock>
+                <HeaderBlock>
                     <span>Price</span>
-                </div>
-                <div className="header-block">
+                </HeaderBlock>
+                <HeaderBlock>
                     <span>Remove</span>
-                </div>
-            </div>
-        : <div className="checkout-header">
-            <div className="header-block">
+                </HeaderBlock>
+            </CheckoutHeader>
+        : <CheckoutHeader>
+            <HeaderBlock>
                 <span>My Cart:</span>
-            </div>
-            <div className="header-block">
+            </HeaderBlock>
+            <HeaderBlock>
                 <span>Remove</span>
-            </div>
-        </div>
+            </HeaderBlock>
+        </CheckoutHeader>
         }
             {
                 cartItems.map(cartItem => 
@@ -47,22 +55,22 @@ const CheckoutPage = ({cartItems, total}) => {
                 )
             }
 
-            <div className="explination">
+            <Disclaimer>
                     As I am sure you know, this is not a real store. If you would like 
                     to test the payment Component, you can enter the following demo card 
                     provided by Stripe.
-            </div>
-            <div className="total-and-pay">
-                <StripeCheckoutButton price={total}/>
-                <div className="total">Total: ${total}</div>
-            </div>
-            <div className="test-warning">
+            </Disclaimer>
+            <TotalAndPay>
+                <CheckoutButton price={total}/>
+                <Total>Total: ${total}</Total>
+            </TotalAndPay>
+            <TestCardDisclaimer>
                 *Please use following information for test payments* 
                 <br/>
                 N: 4242 4242 4242 4242 -- Exp: 12/20 -- CVV: 123
                 <br/>
-            </div>
-        </div>
+            </TestCardDisclaimer>
+        </CheckoutPageContainer>
     );
 }
 const mapStateToProps = createStructuredSelector({

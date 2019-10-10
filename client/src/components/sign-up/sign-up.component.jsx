@@ -1,30 +1,38 @@
-import React from 'react';
-import './sign-up.styles.scss';
+import React, { useState, useEffect } from 'react';
 import CustomButton from './../custom-button/custom-button.component';
 import FormInput from './../form-input/form-input.component';
-import {signUpStart} from './../../redux/user/user.actions.js';
+import SignOnError from '../sign-in-and-sign-up-error/sign-on-error.component';
+import { signUpStart } from './../../redux/user/user.actions.js';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import { selectUserErrorMessage } from './../../redux/user/user.selectors';
+import { SignUpContainer, SignUpTitle } from './sign-up.styles';
 
-class SignUp extends React.Component {
-    constructor(){
-        super();
+const SignUp = ({ signUpStart, userErrorMessage }) => {
+    const [signUpDetails, setSignUpDetails] = useState({
+        displayName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
 
-        this.state = {
-            displayName: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
+    useEffect(() => {
+        if(userErrorMessage){
+            setSignUpDetails({
+                displayName: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            });
         }
-    }
+    }, [userErrorMessage])
 
-    handleSubmit = e => {
+    const { displayName, email, password, confirmPassword } = signUpDetails;
+
+    const handleSubmit = e => {
         e.preventDefault();
-        const { displayName, email, password, confirmPassword } = this.state;
-        const { signUpStart, history } = this.props;
-
         if(password !== confirmPassword) {
-            alert("Passwords do not match. Please renter password and confirm password");
+            alert("Passwords do not match. Please re-enter password and confirm password");
             this.setState({
                 password: '',
                 confirmPassword: ''
@@ -32,62 +40,63 @@ class SignUp extends React.Component {
             return;
         }else{
             signUpStart({displayName: displayName, email: email, password: password});
-            history.push('/account');
         }
     }
 
-    handleChange = e => {
+    const handleChange = e => {
         const { value, name } = e.target;
-
-        this.setState({ [name]: value})
+        setSignUpDetails({...signUpDetails, [name]: value})
     }
 
-    render(){
-        return (
-            <div className="sign-up">
-            <h2 className="title">I do not have an account</h2>
+    return (
+        <SignUpContainer>
+            <SignUpTitle>I do not have an account</SignUpTitle>
             <span>Sign up with your email and password</span>
         
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <FormInput name='displayName' 
                 type='text' 
-                value={this.state.displayName} 
-                handleChange={this.handleChange}
+                value={displayName} 
+                handleChange={handleChange}
                 label='Display Name'
             required/>
             
             <FormInput name='email' 
                 type='email' 
-                value={this.state.email} 
-                handleChange={this.handleChange}
+                value={email} 
+                handleChange={handleChange}
                 label='email'
             required/>
 
             <FormInput name='password' 
                 type='password' 
-                value={this.state.password} 
-                handleChange={this.handleChange}
+                value={password} 
+                handleChange={handleChange}
                 label='Password'
             required/>
         
             <FormInput name='confirmPassword' 
                 type='password' 
-                value={this.state.confirmPassword} 
-                handleChange={this.handleChange}
+                value={confirmPassword} 
+                handleChange={handleChange}
                 label='Confirm Password'
             required/>
 
-            <div className="buttons">
+            <div>
                 <CustomButton type='submit'>Sign Up</CustomButton>
             </div>
-            </form>    
-            </div>
-        )
-    }    
+            </form>
+            { userErrorMessage ? <SignOnError error={userErrorMessage} /> : null }    
+        </SignUpContainer>
+    );    
 }
+
+const mapStateToProps = createStructuredSelector({
+    userErrorMessage: selectUserErrorMessage
+});
 
 const mapDispatchToProps = dispatch => ({
     signUpStart: (signUpInput) => dispatch(signUpStart(signUpInput))
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(SignUp));
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

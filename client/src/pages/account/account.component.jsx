@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import './account.styles.scss';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './../../redux/user/user.selectors.js';
-import CustomButton from './../../components/custom-button/custom-button.component';
+import { AccountPageContainer, AccountPageTitle, AccountPageEmail, AccountPageButton } from './account.styles';
 
 const AccountPage = ({user: {displayName, email}, history}) => {
 
@@ -21,16 +20,16 @@ const AccountPage = ({user: {displayName, email}, history}) => {
     
 
     return(
-    <div className='account-page-container'>
-        <h1 className='title'>
+    <AccountPageContainer>
+        <AccountPageTitle>
             Hello, {firstName}
-        </h1> 
-        <span className='email'>
+        </AccountPageTitle> 
+        <AccountPageEmail>
             Email: {email} 
-        </span>
-        <CustomButton onClick={() => history.push('/shop')}>Go To Shop</CustomButton>
-        <CustomButton inverted onClick={() => history.push('/checkout')}>Go To Cart</CustomButton>
-    </div>
+        </AccountPageEmail>
+        <AccountPageButton onClick={() => history.push('/shop')}>Go To Shop</AccountPageButton>
+        <AccountPageButton inverted onClick={() => history.push('/checkout')}>Go To Cart</AccountPageButton>
+    </AccountPageContainer>
     );
 }
 

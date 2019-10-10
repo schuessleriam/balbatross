@@ -1,86 +1,78 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Breakpoint } from 'react-socks';
-import './sign-in.styles.scss';
 import FormInput from './../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-import { googleRedirectSignInStart, googleSignInStart, emailSignInStart, clearError } from './../../redux/user/user.actions.js';
+import SignOnError from '../sign-in-and-sign-up-error/sign-on-error.component';
+import { googleRedirectSignInStart, googleSignInStart, emailSignInStart } from './../../redux/user/user.actions.js';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectUserErrorMessage } from './../../redux/user/user.selectors';
+import { SignInContainer, SignInTitle, Buttons } from './sign-in.styles';
 
-class SignIn extends Component {
-    constructor(props){
-        super(props);
+const SignIn = ({ 
+    SignInWithGoogleWithRedirect, 
+    SignInWithGoogle, 
+    userErrorMessage, 
+    emailSignInStart}) => {
 
-        this.state = {
-            email: '',
-            password: ''
+    const [signInDetails, setSignInDetails] = useState({email: '', password: ''});
+    const {email, password} = signInDetails;
+
+    useEffect(() => {
+        if(userErrorMessage){
+            setSignInDetails({email: '', password: ''});
         }
-    }
+    }, [userErrorMessage])
 
-    handleSubmit = async e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        const {email, password} = this.state;
-        const {emailSignInStart} = this.props;
-
         emailSignInStart(email, password);
     }
 
-    handleChange = e => {
+    const handleChange = e => {
         const { value, name } = e.target;
-
-        this.setState({ [name]: value})
+        setSignInDetails({ ...signInDetails, [name]: value})
     }
 
-    render(){
+    return(
+        <SignInContainer>
+            <SignInTitle>I already have an account</SignInTitle>
+            <span>Sign in with username and password</span>
 
-        const { SignInWithGoogleWithRedirect, SignInWithGoogle, userErrorMessage, clearError } = this.props;
-
-        if(userErrorMessage){
-            alert(userErrorMessage);
-            clearError();
-        }
-
-        return(
-            <div className='sign-in'>
-                <h2 className="title">I already have an account</h2>
-                <span>Sign in with username and password</span>
-
-                <form onSubmit={this.handleSubmit}>
-                    <FormInput name='email' 
-                        type='email' 
-                        value={this.state.email} 
-                        handleChange={this.handleChange}
-                        label='email'
-                        required/>
-                    <FormInput name='password' 
-                        type='password' 
-                        value={this.state.password} 
-                        handleChange={this.handleChange}
-                        label='Password'
-                        required/>
-                    <div className="buttons">
-                        <CustomButton type='submit'>Sign In</CustomButton>
-                        <Breakpoint customQuery="(min-width: 800px)">
-                            <CustomButton type='button' isGoogle='true' onClick={
-                                SignInWithGoogle 
-                            }>
-                            Sign In With Google
-                            </CustomButton>
-                        </Breakpoint>
-                        <Breakpoint customQuery="(max-width: 799px)">
-                            <CustomButton type='button' isGoogle='true' onClick={
-                                SignInWithGoogleWithRedirect 
-                            }>
-                            Sign In With Google
-                            </CustomButton>
-                        </Breakpoint>
-                    </div>    
-                </form>
-            </div>
-        );
-    }
-
+            <form onSubmit={handleSubmit}>
+                <FormInput name='email' 
+                    type='email' 
+                    value={email} 
+                    handleChange={handleChange}
+                    label='email'
+                    required/>
+                <FormInput name='password' 
+                    type='password' 
+                    value={password} 
+                    handleChange={handleChange}
+                    label='Password'
+                    required/>
+                <Buttons>
+                    <CustomButton type='submit'>Sign In</CustomButton>
+                    <Breakpoint customQuery="(min-width: 800px)">
+                        <CustomButton type='button' isGoogle='true' onClick={
+                            SignInWithGoogle 
+                        }>
+                        Sign In With Google
+                        </CustomButton>
+                    </Breakpoint>
+                    <Breakpoint customQuery="(max-width: 799px)">
+                        <CustomButton type='button' isGoogle='true' onClick={
+                            SignInWithGoogleWithRedirect 
+                        }>
+                        Sign In With Google
+                        </CustomButton>
+                    </Breakpoint>
+                </Buttons>    
+            </form>
+            { userErrorMessage ? <SignOnError error={userErrorMessage} /> : null }
+        </SignInContainer>
+    );
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -90,8 +82,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
     SignInWithGoogle: () => dispatch(googleSignInStart()),
     SignInWithGoogleWithRedirect: () => dispatch(googleRedirectSignInStart()),
-    emailSignInStart: (email, password) => dispatch(emailSignInStart({email: email, password: password})),
-    clearError: () => dispatch(clearError())
+    emailSignInStart: (email, password) => dispatch(emailSignInStart({email: email, password: password}))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

@@ -39,65 +39,62 @@ const Header = ({ currentUser, hidden, signOutStart }) => {
 
     return (
         <HeaderContainer>
-        {
-            showHeader.isMobile ? <OptionContainerDiv icon onClick={() => 
-                toggleHeaderDropdown()}>
-                &#9776;</OptionContainerDiv> : null
-        }
-                <LogoContainer to="/">
-                    <Logo/>
-                </LogoContainer>
-                
-                <OptionsContainer>
-                {   
-    //render mobile dropdown
-                    showHeader.showHeader && showHeader.isMobile ?
-                        <OptionsContainer {...showHeader}>
-                            <OptionContainerDiv icon onClick={() => toggleHeaderDropdown()}> &#10005; </OptionContainerDiv>  
-                            <OptionContainerDiv><Line/></OptionContainerDiv>
-                            <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/">HOME</OptionContainerLink> 
-                            <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/shop">SHOP</OptionContainerLink>
-                            <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/contact">CONTACT</OptionContainerLink>
-                            {currentUser ? <OptionContainerLink 
-                                onClick={() => toggleHeaderDropdown()} to="/account">
-                                ACCOUNT</OptionContainerLink> 
-                            : null}
-                            {currentUser ? <OptionContainerDiv  onClick={ () => {
-                                    toggleHeaderDropdown();
-                                    signOutStart();
-                                    }
-                                }>
-                                SIGN OUT</OptionContainerDiv>
-                            : <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/signin">SIGN IN</OptionContainerLink>
-                            }
-                        </OptionsContainer>
-    //render desktop header                          
-                    : !showHeader.isMobile ?
-                        <OptionsContainer {...showHeader}> 
-                            <OptionContainerLink to="/shop">SHOP</OptionContainerLink>
-                            <OptionContainerLink to="/contact">CONTACT</OptionContainerLink>
-                            {currentUser ? <OptionContainerLink  to="/account">ACCOUNT</OptionContainerLink> : null}
-                            {currentUser ? <OptionContainerDiv  onClick={ () => signOutStart()}>SIGN OUT</OptionContainerDiv>
-                                : <OptionContainerLink to="/signin">SIGN IN</OptionContainerLink>
-                            }
-                        </OptionsContainer>
-                    
-                    : null
-                }
+        {showHeader.isMobile ? 
+            <OptionContainerDiv icon onClick={() => toggleHeaderDropdown()}>
+                &#9776; 
+            </OptionContainerDiv> 
+        : null}
+            <LogoContainer to="/">
+                <Logo/>
+            </LogoContainer>
+            <OptionsContainer>
 
-                    <OptionsContainer>
-                        { 
-                        !showHeader.isMobile ?
-                            <OptionContainerDiv> <CartIcon/> </OptionContainerDiv>
-                        :
-                            <OptionContainerLink onClick={() => 
-                                setShowHeader({...showHeader, showHeader: false})}
-                                to="/checkout"
-                            >
-                                <CartIcon />
-                            </OptionContainerLink>
-                        }
-                    </OptionsContainer>
+            {showHeader.showHeader && showHeader.isMobile ? //render mobile dropdown
+                <OptionsContainer {...showHeader}>
+                    <OptionContainerDiv icon onClick={() => toggleHeaderDropdown()}> &#10005; </OptionContainerDiv>  
+                    <OptionContainerDiv><Line/></OptionContainerDiv>
+                    <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/">HOME</OptionContainerLink> 
+                    <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/shop">SHOP</OptionContainerLink>
+                    <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/contact">CONTACT</OptionContainerLink>
+                    {currentUser ? <OptionContainerLink 
+                        onClick={() => toggleHeaderDropdown()} to="/account">
+                        ACCOUNT</OptionContainerLink> 
+                    : null}
+                    {currentUser ? <OptionContainerDiv  onClick={ () => {
+                            toggleHeaderDropdown();
+                            signOutStart();
+                            }
+                        }>
+                        SIGN OUT</OptionContainerDiv>
+                    : <OptionContainerLink onClick={() => toggleHeaderDropdown()} to="/signin">SIGN IN</OptionContainerLink>
+                    }
+                </OptionsContainer>
+
+            : !showHeader.isMobile ? //render desktop header 
+                <OptionsContainer {...showHeader}> 
+                    <OptionContainerLink to="/shop">SHOP</OptionContainerLink>
+                    <OptionContainerLink to="/contact">CONTACT</OptionContainerLink>
+                    {currentUser ? <OptionContainerLink  to="/account">ACCOUNT</OptionContainerLink> : null}
+                    {currentUser ? <OptionContainerDiv  onClick={ () => signOutStart()}>SIGN OUT</OptionContainerDiv>
+                        : <OptionContainerLink to="/signin">SIGN IN</OptionContainerLink>
+                    }
+                </OptionsContainer>
+                
+            : null}
+            
+                <OptionsContainer>
+                    { 
+                    !showHeader.isMobile ?
+                        <OptionContainerDiv> <CartIcon/> </OptionContainerDiv>
+                    :
+                        <OptionContainerLink onClick={() => 
+                            setShowHeader({...showHeader, showHeader: false})}
+                            to="/checkout"
+                        >
+                            <CartIcon />
+                        </OptionContainerLink>
+                    }
+                </OptionsContainer>
                 </OptionsContainer>
                 {
                     !hidden && !showHeader.isMobile ? <CartDropdown/> : null

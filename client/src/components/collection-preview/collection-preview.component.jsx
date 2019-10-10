@@ -1,8 +1,8 @@
 import React from 'react';
 import { Breakpoint } from 'react-socks';
 import { withRouter } from 'react-router-dom';
-import './collection-preview.styles.scss';
 import CollectionItem from "../collection-item/collection-item.component";
+import { CollectionPreviewContainer, Title, PreviewItemsContainer } from './collection-preview.styles';
 
 const CollectionPreview = ({title, items, routeName, match, history}) => {
     
@@ -13,41 +13,41 @@ const CollectionPreview = ({title, items, routeName, match, history}) => {
     }
 
     return (
-        <div className='collection-preview'>
-            <h1 className='title' onClick={ () => history.push(`${match.url}/${routeName}`)}>
+        <CollectionPreviewContainer>
+            <Title onClick={ () => history.push(`${match.url}/${routeName}`)}>
                 {title.toUpperCase()}
-            </h1>
+            </Title>
             <Breakpoint customQuery="(max-width: 799px)">
-                <div className='preview-items'>
+                <PreviewItemsContainer>
                     {PreviewItems(5)}
-                </div>
+                </PreviewItemsContainer>
             </Breakpoint>
             <Breakpoint customQuery="(min-width: 800px) and (max-width: 1008px)">
-                <div className='preview-items'>
+                <PreviewItemsContainer>
                     {PreviewItems(3)}
-                </div>
+                </PreviewItemsContainer>
             </Breakpoint>
             <Breakpoint customQuery="(min-width: 1009px) and (max-width: 1220px)">
-                <div className='preview-items'>
+                <PreviewItemsContainer>
                     {PreviewItems(4)}
-                </div>
+                </PreviewItemsContainer>
             </Breakpoint>
             <Breakpoint customQuery="(min-width: 1221px) and (max-width: 1600px)">
-                <div className='preview-items'>
+                <PreviewItemsContainer>
                     {PreviewItems(5)}
-                </div>
+                </PreviewItemsContainer>
             </Breakpoint>
             <Breakpoint customQuery="(min-width: 1601px) and (max-width: 1999px)">
-                <div className='preview-items'>
+                <PreviewItemsContainer>
                     {PreviewItems(6)}
-                </div>
+                </PreviewItemsContainer>
             </Breakpoint>
             <Breakpoint customQuery="(min-width: 2000px)">
-                <div className='preview-items'>
+                <PreviewItemsContainer>
                     {PreviewItems(7)}
-                </div>
+                </PreviewItemsContainer>
             </Breakpoint>
-        </div>
+        </CollectionPreviewContainer>
     );
 }
 
