@@ -35,7 +35,7 @@ export const ListItem = Styled.li`
 export const TextContainer = Styled.span`
     display: flex;
     align-items: center;
-    ${props => props.display ? 'width: 100px' : 'width: 150px'};
+    ${props => props.displayMessage ? 'width: 100px' : 'width: 150px'};
 `;
 
 export const IconContainer = Styled.div`
@@ -52,7 +52,7 @@ export const Github = Styled(GithubIcon)`
 `;
 
 export const CopyEmail = Styled.span`
-    ${props => props.display ? "display: flex" : "display: none"};
+    ${props => props.displayMessage ? "display: flex" : "display: none"};
     width: 240px;
     align-items: center;
     font-size: 12px;

@@ -7,17 +7,17 @@ import { ContactPageContainer, LinksList, ListItem, AboutList,
 const ContactPage = () => {
 
     const [emailHover, setEmailHover] = useState({
-        display: false, 
+        displayMessage: false, 
         message: 'Click to copy to clipboard', 
         copied: false
     });
 
     const handleEmailHoverMessage = () => {
-        setEmailHover({...emailHover, display: true});
+        setEmailHover({...emailHover, displayMessage: true});
     }
 
     const handleNoEmailHover = () => {
-        setEmailHover({...emailHover, display: false});
+        setEmailHover({...emailHover, displayMessage: false});
     }
 
     const handleEmailCopy = () => {
