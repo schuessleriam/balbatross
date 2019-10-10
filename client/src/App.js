@@ -9,6 +9,7 @@ import { checkUserSession } from './redux/user/user.actions';
 import { GlobalStyle, MobileSpacer } from './global.styles';
 import CheckoutContainer from './pages/checkout/checkout.container';
 import HomePage from './pages/homepage/homepage.component';
+import ContactPage from './pages/contact/contact.component';
 import ShopPage from './pages/shop/shop.component';
 import AccountContainer from './pages/account/account.container.jsx';
 import Header from './components/header/header.component';
@@ -26,10 +27,11 @@ const App = ({ checkUserSession, currentUser }) => {
       <Header/>
       <MobileSpacer/>
       <Switch>
-        <Route exact path="/"  component = {HomePage}/>
-        <Route path="/shop"  component = {ShopPage}/>
+        <Route exact path="/" component = {HomePage}/>
+        <Route path="/shop" component = {ShopPage}/>
         <Route exact path="/checkout"  component = {CheckoutContainer}/>
         <Route exact path="/account"  component = {AccountContainer}/>
+        <Route exact path="/contact" component = {ContactPage}/>
         <Route exact path="/signin"  render={() => 
           currentUser ? <Redirect to='/account'/> : <SignInAndSignUp/>
         }/> 
