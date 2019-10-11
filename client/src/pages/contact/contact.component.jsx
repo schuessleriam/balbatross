@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCurrentWidth } from 'react-socks';
 import { ContactPageContainer, LinksList, ListItem, AboutList, 
     AboutListItem, IconContainer, TextContainer, Github, Email, 
     Code, At, CopyEmail, Welcome
@@ -8,9 +9,10 @@ const ContactPage = () => {
 
     const [emailHover, setEmailHover] = useState({
         displayMessage: false, 
-        message: 'Click to copy to clipboard', 
-        copied: false
+        message: 'Copy email to clipboard'
     });
+
+    const width = useCurrentWidth();
 
     const handleEmailHoverMessage = () => {
         setEmailHover({...emailHover, displayMessage: true});
@@ -21,12 +23,28 @@ const ContactPage = () => {
     }
 
     const handleEmailCopy = () => {
-        navigator.clipboard.writeText('as@schuess.com');
+        if (document.queryCommandSupported('copy')){
+            const address = document.createElement('textarea');
+            address.innerText = 'as@schuess.com';
+            document.body.appendChild(address);
+            address.select();
+            document.execCommand('copy');
+            address.remove();
+        }
+
         setEmailHover({
             ...emailHover, 
-            copied: true,
             message: 'Email has been copied to clipboard'
         });
+
+        if(width < 800){
+            setTimeout(() => {
+                setEmailHover({ 
+                    message: 'Email has been copied to clipboard', 
+                    displayMessage: false
+                });
+            }, 3000);
+        }
     }
 
     return (
@@ -42,7 +60,9 @@ const ContactPage = () => {
                                 onMouseLeave={handleNoEmailHover}
                         />
                     </IconContainer> 
-                    <TextContainer {...emailHover}>as@schuess.com</TextContainer>
+                    <TextContainer {...emailHover}>
+                        as@schuess.com
+                    </TextContainer>
                     <CopyEmail {...emailHover}>{emailHover.message}</CopyEmail>
                 </ListItem>
 
@@ -65,7 +85,7 @@ const ContactPage = () => {
             <AboutList>
                 <AboutListItem> This webapp was built upon React.js and Express.js.</AboutListItem>
                 <AboutListItem> Global state management is handled through redux, as well as Async requests through redux sagas. </AboutListItem>
-                <AboutListItem> All authentication is done through firebase, and backend data in the firebase firestore. </AboutListItem>
+                <AboutListItem> All authentication is handled by Firebase, and the database is a Firebase firestore. </AboutListItem>
                 <AboutListItem> Test transactions are completed by Stripe and is fully implementable for real world use. </AboutListItem>
                 <AboutListItem> This App is responsive, try it on mobile! </AboutListItem>
             </AboutList>

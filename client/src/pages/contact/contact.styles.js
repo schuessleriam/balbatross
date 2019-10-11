@@ -33,7 +33,7 @@ export const ListItem = Styled.li`
 `;
 
 export const TextContainer = Styled.span`
-    display: flex;
+    ${props => props.displayMessage ? "display: none" : "display: flex"};
     align-items: center;
     ${props => props.displayMessage ? 'width: 100px' : 'width: 150px'};
 `;
@@ -55,7 +55,8 @@ export const CopyEmail = Styled.span`
     ${props => props.displayMessage ? "display: flex" : "display: none"};
     width: 240px;
     align-items: center;
-    font-size: 12px;
+    font-size: 14px;
+    margin-top: 2px;
     color: rgb(96, 108, 129);
 `;
 
