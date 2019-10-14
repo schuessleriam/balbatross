@@ -19,5 +19,5 @@ export const selectUserErrorMessage = createSelector(
 
 export const selectIsFetchingUser = createSelector(
     [selectUser],
-    (user) => user.IsFetchingUser
+    (user) => user.isFetchingUser
 );

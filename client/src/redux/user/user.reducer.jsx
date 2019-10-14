@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     currentUser: null,
     errorMessage: null,
     userSessionChecked: false,
-    IsFetchingUser: false
+    isFetchingUser: false
 }
 
 const userReducer = (state = INITIAL_STATE, action) =>{
@@ -13,7 +13,7 @@ const userReducer = (state = INITIAL_STATE, action) =>{
         case userActionTypes.SIGN_IN_SUCCESS:
             return {
                 ...state,
-                IsFetchingUser: false,
+                isFetchingUser: false,
                 currentUser: action.payload,
                 errorMessage: null
             };
@@ -23,12 +23,12 @@ const userReducer = (state = INITIAL_STATE, action) =>{
         case userActionTypes.SIGN_UP_START:
                 return {
                     ...state,
-                    IsFetchingUser: true
+                    isFetchingUser: true
                 };
         case userActionTypes.SIGN_OUT_SUCCESS:
             return {
                 ...state,
-                IsFetchingUser: false,
+                isFetchingUser: false,
                 currentUser: null,
                 errorMessage: null
             };
@@ -37,9 +37,14 @@ const userReducer = (state = INITIAL_STATE, action) =>{
         case userActionTypes.SIGN_OUT_FAILURE:
             return {
                 ...state,
-                IsFetchingUser: false,
+                isFetchingUser: false,
                 errorMessage: action.payload
             };
+        case userActionTypes.CHECK_USER_SESSION:
+                return {
+                    ...state,
+                    isFetchingUser: true
+                };
         case userActionTypes.CHECK_USER_SESSION_COMPLETE:
             return {
                 ...state,
