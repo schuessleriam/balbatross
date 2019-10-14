@@ -16,7 +16,7 @@ const ContactPage = lazy(() => import('./pages/contact/contact.component'));
 const ShopPage = lazy(() => import('./pages/shop/shop.component'));
 const AccountContainer = lazy(() => import('./pages/account/account.container.jsx'));
 const SignInAndSignUp = lazy(() => 
-  import('./pages/sign-in-and-sign-up/sign-in-and-sign-up.component')
+  import('./pages/sign-in-and-sign-up/sign-in-and-sign-up.container')
 );
 
 const App = ({ checkUserSession, currentUser }) => {
