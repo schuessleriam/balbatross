@@ -4,15 +4,22 @@ A fake but fully operational online store. Browse, add to your cart, create an a
 
 ## Email and Links
 My Email: as@schuess.com
+
 Live Site: https://alex.schuess.com/shopApp || https://balbatross.herokuapp.com
 
 ## Built With
-    * [React.js] (https://github.com/facebook/react)
-    * [Express.js] (https://github.com/expressjs/express)
-    * [Redux] https://github.com/reduxjs/redux and [Redux Sagas] (https://github.com/redux-saga/redux-saga)
-    * [Styled Components] (https://github.com/styled-components/styled-components)
-    * [Firebase] (https://firebase.google.com/docs)
-    * [Stripe] (https://stripe.com/docs) 
+   [React.js](https://github.com/facebook/react)
+   
+   [Express.js](https://github.com/expressjs/express)
+   
+   [Redux](https://github.com/reduxjs/redux) and 
+   [Redux Sagas](https://github.com/redux-saga/redux-saga)
+   
+   [Styled Components](https://github.com/styled-components/styled-components)
+   
+   [Firebase](https://firebase.google.com/docs)
+   
+   [Stripe](https://stripe.com/docs) 
 
 ## About Me
 I am a Frontend Developer from Milwaukee, WI, With a Bachelors of Science in Computer Science and a Minor in Mathematics from Valparaiso University.
