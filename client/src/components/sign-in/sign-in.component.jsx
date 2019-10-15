@@ -62,9 +62,7 @@ const SignIn = ({
                         </CustomButton>
                     </Breakpoint>
                     <Breakpoint customQuery="(max-width: 799px)">
-                        <CustomButton type='button' isGoogle='true' onClick={
-                            SignInWithGoogleWithRedirect 
-                        }>
+                        <CustomButton type='button' isGoogle='true' onClick={SignInWithGoogleWithRedirect}>
                         Sign In With Google
                         </CustomButton>
                     </Breakpoint>

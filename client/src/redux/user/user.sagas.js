@@ -1,4 +1,4 @@
-import { all, call, takeLatest, put } from 'redux-saga/effects';
+import { all, call, takeLatest, put, delay } from 'redux-saga/effects';
 import userActionTypes from './user.action.types';
 import { auth, googleProvider, createUserProfileDoc, getCurrentUser } from './../../firebase/firebase.utils';
 import {signInSuccess, 
@@ -14,9 +14,11 @@ function* signInWithAuth(userAuth, additionalData) {
         const userRef = yield call(createUserProfileDoc, userAuth, additionalData);
         const snapshot = yield userRef.get();
         yield put(signInSuccess({id: snapshot.id, ...snapshot.data()}));
-        
+        yield localStorage.setItem('isFetching', false);        
     } catch (error) {
         yield put(signInFailure(error));
+        yield localStorage.setItem('isFetching', false);
+
     }
 }
 
@@ -31,11 +33,13 @@ function* signInWithGoogle() {
 
 function* signInWithGoogleWithRedirect() {
     try {
+        yield localStorage.setItem('isFetching', true);
         yield auth.signInWithRedirect(googleProvider);
         const {user} = yield auth.getRedirectResult();
         yield signInWithAuth(user);
     } catch (error) {
         yield put(signInFailure(error));
+        yield localStorage.setItem('isFetching', false);
     }
 }
 
@@ -60,6 +64,18 @@ function* isUserAuthenticated() {
     } catch (error) {
         yield put(signInFailure(error));
         yield put(checkUserSessionComplete());
+    }
+}
+
+function* fetchUserTimout() {
+    let lsIsFetching = JSON.parse(localStorage.getItem('isFetching'));
+    if (lsIsFetching){
+        yield delay(20000);
+        if (lsIsFetching){
+            yield localStorage.setItem('isFetching', false);
+            const error = {message: "sign in operation timed out."};
+            yield put(signInFailure(error)); 
+        }
     }
 }
 
@@ -97,6 +113,7 @@ function* onEmailSignInStart() {
 
 function* onCheckUserSession() {
     yield takeLatest(userActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
+    yield takeLatest(userActionTypes.CHECK_USER_SESSION, fetchUserTimout);
 }
 
 function* onSignOutStart() {

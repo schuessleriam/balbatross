@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     currentUser: null,
     errorMessage: null,
     userSessionChecked: false,
-    isFetchingUser: false
+    isFetchingUser: JSON.parse(localStorage.getItem('isFetching'))
 }
 
 const userReducer = (state = INITIAL_STATE, action) =>{
@@ -40,15 +40,10 @@ const userReducer = (state = INITIAL_STATE, action) =>{
                 isFetchingUser: false,
                 errorMessage: action.payload
             };
-        case userActionTypes.CHECK_USER_SESSION:
-                return {
-                    ...state,
-                    isFetchingUser: true
-                };
         case userActionTypes.CHECK_USER_SESSION_COMPLETE:
             return {
                 ...state,
-                userSessionChecked: true
+                userSessionChecked: true,
             };
         case userActionTypes.CLEAR_ERROR:
             return {

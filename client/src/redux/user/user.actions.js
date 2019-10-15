@@ -26,6 +26,7 @@ export const signInFailure = err => ({
 export const checkUserSession = () => ({
     type: userActionTypes.CHECK_USER_SESSION
 });
+
 export const checkUserSessionComplete = () => ({
     type: userActionTypes.CHECK_USER_SESSION_COMPLETE
 });

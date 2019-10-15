@@ -7,8 +7,7 @@ import AccountPage from './account.component';
 const mapStateToProps = state => ({
     isLoading: !selectCurrentUser(state),
     condition: selectUserSessionChecked(state),
-    location: '/',
-    description: 'Loading Account'
+    location: '/'
 });
 
 const AccountContainer = connect(mapStateToProps)(WithCondition(WithSpinner(AccountPage)));
