@@ -83,20 +83,20 @@ const ContactPage = () => {
             
             <h3>About the App</h3>
             <AboutList>
-                <AboutListItem> This webapp was built upon React.js and Express.js.</AboutListItem>
-                <AboutListItem> Global state management is handled through redux, as well as Async requests through redux sagas. </AboutListItem>
-                <AboutListItem> All authentication is handled by Firebase, and the database is a Firebase firestore. </AboutListItem>
+                <AboutListItem> This web app was built upon React.js and Express.js.</AboutListItem>
+                <AboutListItem> Global state management is handled through Redux, as well as async requests through Redux Sagas. </AboutListItem>
+                <AboutListItem> All authentication is handled by Firebase, and the database is a Firebase Firestore. </AboutListItem>
                 <AboutListItem> Test transactions are completed by Stripe and is fully implementable for real world use. </AboutListItem>
-                <AboutListItem> This App is responsive, try it on mobile! </AboutListItem>
+                <AboutListItem> This app is responsive, try it on mobile! </AboutListItem>
             </AboutList>
 
             <h3>About Me</h3>
             <AboutList>
                 <AboutListItem>
-                    My name is Alex, and I am a Frontend Developer from Milwaukee, WI.
+                    My name is Alex, and I am a web developer from Milwaukee, WI.
                 </AboutListItem>
                 <AboutListItem>
-                    I have a Bachelors of Science in Computer Science and a Minor in Mathematics 
+                    I have a Bachelor of Science in Computer Science and a Minor in Mathematics 
                     from Valparaiso University.
                 </AboutListItem>
             </AboutList>
